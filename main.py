@@ -28,7 +28,40 @@ while True:
             for index, item in enumerate(todos):
                 print(f"{index+1} - {item.strip()}")
 
-        case _:
+        case "edit":
+            with open("files/todo.txt", "r") as file:
+                todos = file.readlines()
+
+            print("Which item no. you want to edit?")
+            item_no = int(input())
+
+            print("What is the new task for this item?")
+            item_value = input()+"\n"
+
+            todos[item_no-1] =item_value
+            with open("files/todo.txt", "w") as file:
+                file.writelines(todos)
+
+            print(f"Updated {item_value.strip("\n")} to the todo list")
+
+        case "complete":
+            with open("files/todo.txt", "r") as file:
+                todos = file.readlines()
+
+            print("Which item no. you have completed?")
+            item_no = int(input())
+
+            to_remove_item = todos[item_no-1]
+            todos.pop(item_no-1)
+
+            with open("files/todo.txt", "w") as file:
+                file.writelines(todos)
+
+            print(f"Removed {to_remove_item.strip("\n")} from the todo list")
+
+        case "exit":
             print("Bye")
             break
 
+        case _ :
+            print("This command is not recognized")
