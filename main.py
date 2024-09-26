@@ -1,62 +1,69 @@
 #Python To DO APP
+from Utils import functions
 
 print("-- To Do APP Manager --")
 
 while True:
+    file_path = "files/todo.txt"
     print("What you want to do (add, read, edit, complete, exit) in to do app?:")
     user_input = input()
-    if 'add' in user_input:
+    if  user_input.startswith('add'):
 
         task_item = user_input[4:]
 
-        with open("files/todo.txt", "r") as file:
-            todos = file.readlines()
+        todos= functions.read_task(file_path)
 
         todos.append(task_item + "\n")
 
-        with open("files/todo.txt", "w") as file:
-            file.writelines(todos)
+        functions.write_task(file_path, todos)
 
         print(f"Added {task_item} to the todo list")
 
-    elif "read" in user_input:
-        with open("files/todo.txt", "r") as file:
-            todos = file.readlines()
+    elif  user_input.startswith("read"):
+        todos = functions.read_task(file_path)
 
         for index, item in enumerate(todos):
             print(f"{index+1} - {item.strip()}")
 
-    elif "edit" in user_input:
-        with open("files/todo.txt", "r") as file:
-            todos = file.readlines()
+    elif  user_input.startswith("edit"):
+        try:
+            todos = functions.read_task(file_path)
 
-        item_no = int(user_input[5:])
+            item_no = int(user_input[5:])
 
-        print("What is the new task for this item?")
-        item_value = input()+"\n"
+            print("What is the new task for this item?")
+            item_value = input()+"\n"
 
-        todos[item_no-1] =item_value
-        with open("files/todo.txt", "w") as file:
-            file.writelines(todos)
+            todos[item_no-1] =item_value
+            functions.write_task(file_path, todos)
 
-        print(f"Updated {item_value.strip("\n")} to the todo list")
+            print(f"Updated {item_value.strip("\n")} to the todo list")
+        except ValueError:
+            print("Invalid Command is given")
+            continue
 
-    elif "complete" in user_input:
-        with open("files/todo.txt", "r") as file:
-            todos = file.readlines()
 
-        print("Which item no. you have completed?")
-        item_no = int(user_input[9:])
+    elif  user_input.startswith("complete"):
+        try:
+            todos = functions.read_task(file_path)
 
-        to_remove_item = todos[item_no-1]
-        todos.pop(item_no-1)
+            print("Which item no. you have completed?")
+            item_no = int(user_input[9:])
 
-        with open("files/todo.txt", "w") as file:
-            file.writelines(todos)
+            to_remove_item = todos[item_no-1]
+            todos.pop(item_no-1)
 
-        print(f"Removed {to_remove_item.strip("\n")} from the todo list")
+            functions.write_task(file_path, todos)
 
-    elif "exit" in user_input:
+            print(f"Removed {to_remove_item.strip("\n")} from the todo list")
+        except ValueError:
+            print("Invalid input is given")
+            continue
+        except IndexError:
+            print("Invalid Task item is given")
+            continue
+
+    elif  user_input.startswith("exit"):
         print("Bye")
         break
 
