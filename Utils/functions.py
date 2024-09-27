@@ -1,3 +1,4 @@
+import csv
 
 
 def read_task(file_path):
@@ -17,3 +18,13 @@ def write_task(file_path, todos):
 
     with open(file_path, "w") as file:
         file.writelines(todos)
+
+def export_to_csv(file_path_csv):
+    file_path_txt = "files/todo.txt"
+    todos = read_task(file_path_txt)
+    with open(file_path_csv, 'w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(["Task List"]) # Add Heading
+        for item in todos:
+            writer.writerow([item.strip()]) # Add each task as a row to CSV
+    print(f"Exported tasks to csv file:{file_path_csv}")
