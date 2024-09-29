@@ -1,4 +1,5 @@
 import csv
+from datetime import datetime
 
 
 def read_task(file_path):
@@ -28,3 +29,7 @@ def export_to_csv(file_path_csv):
         for item in todos:
             writer.writerow([item.strip()]) # Add each task as a row to CSV
     print(f"Exported tasks to csv file:{file_path_csv}")
+
+def timestamp_task(task):
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    return f"{task} (Added on:{timestamp})"

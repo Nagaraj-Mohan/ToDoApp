@@ -13,7 +13,8 @@ while True:
 
         todos= functions.read_task(file_path)
 
-        todos.append(task_item + "\n")
+        task_item_timestamp = functions.timestamp_task(task_item)
+        todos.append(task_item_timestamp + "\n")
 
         functions.write_task(file_path, todos)
 
@@ -32,9 +33,10 @@ while True:
             item_no = int(user_input[5:])
 
             print("What is the new task for this item?")
-            item_value = input()+"\n"
+            item_value = input()
+            task_item_timestamp = functions.timestamp_task(item_value)+"\n"
 
-            todos[item_no-1] =item_value
+            todos[item_no-1] =task_item_timestamp
             functions.write_task(file_path, todos)
 
             print(f"Updated {item_value.strip("\n")} to the todo list")
