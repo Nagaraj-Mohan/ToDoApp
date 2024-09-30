@@ -5,7 +5,7 @@ print("-- To Do APP Manager --")
 
 while True:
     file_path = "files/todo.txt"
-    print("What you want to do (add, read, edit, complete, exit, export) in to do app?:")
+    print("What you want to do (add, read, edit, complete, exit, export, search, backup) in to do app?:")
     user_input = input()
     if  user_input.startswith('add'):
 
@@ -72,7 +72,15 @@ while True:
         file_path = "exports/"+file_name_csv
         functions.export_to_csv(file_path)
 
+    elif user_input.startswith("search"):
+        print("Enter the file search pattern (e.g., 'files/*.txt')")
+        pattern = input().strip()
+        functions.list_files_by_pattern(pattern)
 
+    elif user_input.startswith("backup"):
+        task_file = "files/todo.txt"
+        backup_path = "files/backup"
+        functions.backup_task_files(task_file, backup_path)
     elif  user_input.startswith("exit"):
         print("Bye")
         break

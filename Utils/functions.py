@@ -1,5 +1,7 @@
 import csv
+import glob
 from datetime import datetime
+import shutil, os
 
 
 def read_task(file_path):
@@ -33,3 +35,25 @@ def export_to_csv(file_path_csv):
 def timestamp_task(task):
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     return f"{task} (Added on:{timestamp})"
+
+def list_files_by_pattern(pattern):
+    task_files = glob.glob(pattern)
+    if task_files:
+        print("Task Files found:")
+        for file in task_files:
+            print(file)
+    else:
+        print("No task files found.")
+
+def backup_task_files(task_file="files/todo.txt", backup_path = "files/backup"):
+    """ Copy the current taskfile to backup location"""
+    timestamp = datetime.now().strftime("%Y_%m_%d_%H_%M")
+    if os.path.exists(backup_path):
+        backup_file = os.path.join(f"{backup_path}",f"todo_backup_{timestamp}.txt")
+        shutil.copy(task_file, backup_file)
+    else:
+        os.makedirs(backup_path)
+        backup_file = os.path.join(f"{backup_path}",f"todo_backup_{timestamp}.txt")
+        shutil.copy(task_file, backup_file)
+
+    print(f"backup created at {backup_file}")
